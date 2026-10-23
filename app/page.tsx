@@ -1,37 +1,24 @@
-import { dataKamar } from "../lib/data";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import KartuKamar from "../components/KartuKamar";
+import DaftarKos from "../components/DaftarKos";
+import { daftarKos } from "../lib/data";
 
-export default function BerandaKosibu() {
+export default function Beranda() {
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans flex flex-col">
-      
-      <Header />
 
-      {/* Hero Section */}
-      <section className="bg-emerald-600 text-white py-16 px-4 text-center">
-        <h2 className="text-4xl sm:text-5xl font-bold mb-4">Kos Putri Nyaman & Strategis</h2>
-        <p className="text-lg mb-8 max-w-2xl mx-auto text-emerald-50">
-          Kosibu menyediakan 5 kamar eksklusif khusus putri berukuran 3x3 meter. Lingkungan aman, tenang, harga terjangkau, serta berlokasi strategis sangat dekat dengan pasar dan alun-alun Demak.
+    <main id="konten" className="grow mx-auto max-w-6xl p-4 w-full py-10">
+      <div className="mb-10 text-center">
+        <h1 className="text-4xl font-bold text-gray-900">Selamat Datang di Kosibu</h1>
+        <p className="mt-4 text-lg text-gray-600">
+          Temukan kos idamanmu di Demak, Semarang, Kudus, dan sekitarnya.
         </p>
-        <a href="#kamar" className="bg-white text-emerald-600 px-8 py-3 rounded-md font-bold hover:bg-gray-100 transition shadow-lg">
-          Lihat Pilihan Kamar
-        </a>
+      </div>
+      
+      <section aria-labelledby="judul-daftar-kos">
+        <h2 id="judul-daftar-kos" className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">
+          Rekomendasi Kos
+        </h2>
+        
+        <DaftarKos daftar={daftarKos} />
       </section>
-
-      {/* Katalog Kamar */}
-      <main id="kamar" className="max-w-6xl mx-auto px-4 py-16 grow">
-        <h2 className="text-3xl font-bold text-center mb-10">Tipe Kamar Kami</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {dataKamar.map((kamar) => (
-            <KartuKamar key={kamar.id} kamar={kamar} />
-          ))}
-        </div>
-      </main>
-
-      <Footer />
-
-    </div>
+    </main>
   );
 }
