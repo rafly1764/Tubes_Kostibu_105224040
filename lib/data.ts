@@ -100,3 +100,25 @@ export function getRentangHarga(kamarList: Kamar[]): string {
 export function cariKos(id: number) {
   return daftarKos.find((kos) => kos.id === id);
 }
+
+import type { MasukanKos } from "./skema";
+
+export function cekNamaKosSama(nama: string) {
+  const dicari = nama.toLowerCase();
+  return daftarKos.some((k) => k.nama.toLowerCase() === dicari);
+}
+
+export function tambahKos(masukan: MasukanKos) {
+
+  const id = Math.max(0, ...daftarKos.map((k) => k.id)) + 1;
+  
+  const kosBaru = { 
+    id, 
+    ...masukan,
+    lokasi: "Belum ditentukan", 
+    daftarKamar: []      
+  };
+  
+  daftarKos.push(kosBaru);
+  return kosBaru;
+}
