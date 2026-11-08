@@ -1,24 +1,23 @@
-# Keputusan Desain Kriptografi: Implementasi AEAD
+# Keputusan Desain Kriptografi: Implementasi AEAD (Tugas 2)
 
-## Skenario Penggunaan
-Sistem manajemen Kosibu perlu menyimpan data sensitif calon penyewa, seperti Nomor Induk Kependudukan (NIK) atau nomor telepon. Data ini rentan terhadap dua jenis serangan utama:
-1. **Pencurian Data (Eavesdropping):** Pihak tidak berwenang membaca isi data.
-2. **Manipulasi Data (Tampering):** Pihak tidak berwenang memodifikasi isi data (misalnya, mengubah NIK atau nominal tagihan di *database*).
+## 1. Skenario Kebutuhan
+Sistem manajemen Kosibu menyimpan data sensitif calon penyewa, seperti Nomor Induk Kependudukan (NIK) dan data kontak. Data ini tidak boleh bocor ke publik (butuh Kerahasiaan) dan tidak boleh diubah oleh peretas di *database* (butuh Integritas).
 
-## Pemilihan Algoritma
-Untuk mengatasi kedua ancaman tersebut sekaligus, kami menggunakan enkripsi terautentikasi dengan data tambahan (AEAD - *Authenticated Encryption with Associated Data*). Algoritma yang dipilih adalah **AES-256-GCM** (Advanced Encryption Standard dengan mode Galois/Counter).
+## 2. Pemilihan Mekanisme & Perbandingan (K1)
+Mekanisme yang dipilih adalah enkripsi terautentikasi (AEAD) menggunakan **AES-256-GCM**.
+Alasan dan perbandingannya dengan mekanisme lain yang ada di aplikasi ini:
+*   **Enkripsi Terautentikasi (AEAD vs Enkripsi Biasa):** Enkripsi biasa (seperti AES-CBC) rentan terhadap modifikasi (*tampering*). AEAD (AES-GCM) mengatasi ini dengan menghasilkan *Ciphertext* sekaligus *Auth Tag*.
+*   **AEAD vs Hash Biasa:** Hash murni (seperti SHA-256) berguna memverifikasi integritas satu arah, namun tidak untuk kerahasiaan karena data aslinya tidak bisa dikembalikan.
+*   **AEAD vs Password Hashing:** Untuk kata sandi admin (yang belum dikerjakan di modul ini), kami akan menggunakan mekanisme khusus *Password Hashing* berbasis RAM yang lambat (Argon2/Bcrypt). AEAD tidak cocok untuk kata sandi karena prosesnya terlalu cepat (*brute-forceable*).
 
-## Alasan Pemilihan AES-256-GCM
-1. **Kerahasiaan dan Integritas Sekaligus:** Mode GCM tidak hanya mengenkripsi teks (*ciphertext*), tetapi juga menghasilkan *Authentication Tag*. Jika ada 1 bit saja dari data yang diubah oleh peretas, proses dekripsi akan langsung menolak dan menggagalkan operasi tersebut (mencegah *tampering*).
-2. **Kinerja Tinggi:** AES-GCM didukung oleh akselerasi perangkat keras (*hardware acceleration*) di sebagian besar prosesor modern, membuatnya jauh lebih cepat dibandingkan mode enkripsi lainnya secara komputasi.
-3. **Standar Keamanan Industri:** Menjadi standar yang direkomendasikan oleh NIST dan diadopsi secara luas pada protokol aman seperti TLS 1.3.
+## 3. Dokumentasi Parameter & Kunci (K2 & K3)
+*   **Panjang Kunci (Master Key):** 32 bytes (256 bits), dibangkitkan dengan CSPRNG (`crypto.randomBytes`) dan disimpan sebagai variabel environment di luar repositori (`.env`).
+*   **Key Derivation (HKDF):** Untuk keamanan maksimal, *Master Key* tidak dipakai langsung. Kami menggunakan HKDF (*HMAC-based Extract-and-Expand Key Derivation Function*) untuk menurunkan kunci spesifik.
+*   **IV (Initialization Vector) / Nonce:** 12 bytes yang unik (CSPRNG) untuk setiap operasi enkripsi.
+*   **AAD (Additional Authenticated Data):** Parameter untuk melindungi konteks tambahan yang tidak dienkripsi tetapi diautentikasi.
+*   **Tag:** *Auth Tag* 16 bytes untuk menjamin integritas teks.
 
-## Komponen Kriptografi
-- **Key (Kunci Rahasia):** Kunci simetris 256-bit yang harus disimpan secara aman di variabel lingkungan (*environment variables*).
-- **IV (Initialization Vector):** Vektor inisialisasi acak sebesar 12 *bytes* yang dihasilkan unik setiap kali enkripsi dilakukan untuk memastikan hasil *ciphertext* selalu berbeda meskipun pesannya sama.
-- **Auth Tag:** Tag autentikasi 16 *bytes* yang memverifikasi bahwa data tidak rusak atau diubah secara ilegal.
-
-## Hasil Pengujian Skenario
-Berikut adalah bukti eksekusi 4 skenario pengujian AEAD (Keberhasilan Dekripsi, Simulasi Kunci Salah, dan Modifikasi Data):
+## 4. Penanganan Masukan (Fail-Closed)
+Setiap masukan teks ke fungsi kriptografi divalidasi terlebih dahulu (memastikan tipe datanya *string* dan tidak kosong). Jika terjadi galat dekripsi atau validasi, sistem mengadopsi prinsip gagal tertutup (*fail-closed*) dengan langsung melemparkan *error* tanpa membocorkan status sensitif ke pengguna akhir.
 
 ![Bukti Kriptografi](docs/bukti-kriptografi.png)
