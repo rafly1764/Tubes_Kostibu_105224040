@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "version": 1,
+  "metadata": {
+    "component": {
+      "type": "application",
+      "name": "kosibu-web",
+      "version": "0.2.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "next",
+      "version": "14.0.0",
+      "purl": "pkg:npm/next@14.0.0"
+    },
+    {
+      "type": "library",
+      "name": "bcrypt",
+      "version": "5.1.1",
+      "purl": "pkg:npm/bcrypt@5.1.1"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+================================================================================
+  Lynis security scan details
+================================================================================
+  Hardening index : 78 [Out of 100]
+  Tests performed : 241
+  Vulnerable packages : 0
+  Warnings : 2
+  Suggestions : 14
+  
+  [*] SSH daemon securely configured (passwordauthentication no, permitrootlogin no)

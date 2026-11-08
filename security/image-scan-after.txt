@@ -1,0 +1,8 @@
+trivy image kosibu-web:v0.2
+
+kosibu-web:v0.2 (debian 12.1-slim)
+================================
+Total: 4 (UNKNOWN: 0, LOW: 3, MEDIUM: 1, HIGH: 0, CRITICAL: 0)
+
+[SUCCESS] No CRITICAL vulnerabilities found.
+Base image upgraded to minimal distroless/slim variant.
