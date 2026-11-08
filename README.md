@@ -41,7 +41,20 @@ Berikut adalah bukti penolakan masukan tidak valid dari sisi server yang diimple
 **3. Bukti Validasi Batas Maksimal Karakter**
 ![Validasi Maksimal](docs/bukti-validasi-3.png)
 
-*(Catatan: Tabel dokumen berisi 10 skenario pengujian CRUD dan relasi data telah dilampirkan pada repositori ini).*
+## Skenario Pengujian CRUD & Relasi (Milestone 2)
+
+| No | Skenario | Tujuan | Langkah Pengujian | Hasil yang Diharapkan | Hasil Aktual | Status |
+|---|---|---|---|---|---|---|
+| 1 | Create (Penyewa) | Menambah data penyewa baru | Mengisi form tambah penyewa valid & klik simpan | Data penyewa baru masuk ke database & tampil di UI | Data tersimpan & UI terbarui | ✅ Lulus |
+| 2 | Read (Penyewa) | Menampilkan daftar penyewa | Membuka halaman `/penyewa` | Menampilkan seluruh data penyewa dari DB PostgreSQL | Daftar tampil sesuai DB | ✅ Lulus |
+| 3 | Update (Penyewa) | Mengubah data penyewa | Mengedit NIK penyewa & klik simpan | NIK berubah di DB dan UI | NIK berhasil diubah | ✅ Lulus |
+| 4 | Delete (Penyewa) | Menghapus data penyewa | Klik tombol hapus pada salah satu penyewa | Data hilang dari UI dan terhapus di DB | Data terhapus bersih | ✅ Lulus |
+| 5 | Create (Kamar) | Menambah data kamar baru | Mengisi form tambah kamar valid & klik simpan | Data kamar baru masuk ke DB | Kamar baru berhasil dibuat | ✅ Lulus |
+| 6 | Read (Kamar) | Menampilkan daftar kamar | Membuka halaman `/kamar` | Seluruh data kamar dari DB tampil di UI | Data kamar tampil sempurna | ✅ Lulus |
+| 7 | Update (Kamar) | Mengubah status kamar | Mengubah status "Kosong" menjadi "Terisi" | Status kamar di DB dan UI berubah | Status terperbarui | ✅ Lulus |
+| 8 | Delete (Kamar) | Menghapus data kamar | Klik tombol hapus pada kamar | Kamar terhapus dari DB | Data terhapus | ✅ Lulus |
+| 9 | Relasi (Create) | Menautkan penyewa ke kamar | Membuat penyewa baru dan memilih ID Kamar yang ada | Data penyewa terhubung dengan kamar (Foreign Key) | Relasi tercipta dengan benar | ✅ Lulus |
+| 10 | Relasi (Delete) | Menguji *Cascade Delete* (opsional) | Menghapus kamar yang memiliki penyewa | Sistem menolak penghapusan (Restrict) / menghapus data terkait | Sistem menahan penghapusan (aman) | ✅ Lulus |
 
 ## Teknologi yang Digunakan
 - **Framework:** Next.js (App Router)
