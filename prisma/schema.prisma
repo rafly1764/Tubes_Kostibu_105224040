@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  
+}
+
+enum TipeKos {
+  Putra
+  Putri
+  Campuran
+}
+
+model Kos {
+  id          Int      @id @default(autoincrement())
+  nama        String   @unique
+  tipe        TipeKos
+  deskripsi   String
+  tersedia    Boolean  @default(true)
+  dibuatPada  DateTime @default(now())
+  
+  ulasan      Ulasan[]
+}
+
+model Ulasan {
+  id          Int      @id @default(autoincrement())
+  namaPenyewa String
+  nilai       Int
+  komentar    String
+  dibuatPada  DateTime @default(now())
+  
+  kosId       Int
+  kos         Kos      @relation(fields: [kosId], references: [id], onDelete: Restrict)
+
+  @@unique([kosId, namaPenyewa])
+}
