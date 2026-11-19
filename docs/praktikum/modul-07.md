@@ -1,7 +1,7 @@
 # Dokumen Teknis Modul 7 — Debugging dan Telaah Kode
 
 - **Nama / NIM:** Muhammad Rafly / 105224040
-- **Repositori:** https://github.com/rafly1764/Tubes_Kostibu_105224040
+- **Repositori:** https://github.com/rafly1764/Tubes_Kostibu_105224040/tree/praktikum/modul-07
 - **Pull Request:** *(isi URL PR `praktikum/modul-07` → `main`)*
 - **Pasangan Telaah:** Michael Alexander Newton (https://github.com/Axcelion017/Tugas-Besar-CS5-PAW-Kripto-Keamanan-Siber)
 
