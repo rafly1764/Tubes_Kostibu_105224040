@@ -9,7 +9,7 @@ export default function FormUlasan({ kosId }: { kosId: number }) {
     {},
   );
   const [isi, setIsi] = useState("");
- const sisa = 280 - isi.length;
+  const sisa = 280 - isi.length; // nilai turunan: dihitung setiap render
 
   return (
     <form
