@@ -28,14 +28,10 @@ export async function ubahKos(
 }
 
 export async function hapusKos(id: number) {
-  try {
     await prisma.kos.delete({ where: { id } });
     revalidatePath("/kos");
     redirect("/kos");
-  } catch (e) {
-    console.log("Gagal menghapus");
   }
-}
 
 export async function tambahUlasan(
   kosId: number,
