@@ -5,7 +5,7 @@
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
       "request": "launch",
-      "command": "npm run dev"
+      "command": "npm run dev -- --inspect"
     },
     {
       "name": "Next.js: debug client-side",
@@ -23,7 +23,7 @@
       "serverReadyAction": {
         "action": "debugWithChrome",
         "killOnServerStop": true,
-        "pattern": "Local:.+(https?://.+)",
+        "pattern": "- Local:.+(https?://.+)",
         "uriFormat": "%s",
         "webRoot": "${workspaceFolder}"
       }

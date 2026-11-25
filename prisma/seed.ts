@@ -8,23 +8,32 @@ const prisma = new PrismaClient({
 });
 
 async function main() {
-  for (const data of dataAwal) {
+  for (const { punyaUlasanAwal, ...data } of dataAwal) {
     const kos = await prisma.kos.upsert({
       where: { nama: data.nama },
-      update: {},
+      update: { tersedia: data.tersedia },
       create: data,
     });
 
-    await prisma.ulasan.upsert({
-      where: { kosId_namaPenyewa: { kosId: kos.id, namaPenyewa: "Pengguna Uji" } },
-      update: {},
-      create: { 
-        kosId: kos.id, 
-        namaPenyewa: "Pengguna Uji", 
-        nilai: 4, 
-        komentar: "Ulasan sintetis untuk pengujian." 
-      },
-    });
+    if (punyaUlasanAwal) {
+      await prisma.ulasan.upsert({
+        where: {
+          kosId_namaPenyewa: { kosId: kos.id, namaPenyewa: "Pengguna Uji" },
+        },
+        update: {},
+        create: {
+          kosId: kos.id,
+          namaPenyewa: "Pengguna Uji",
+          nilai: 4,
+          komentar: "Ulasan sintetis untuk pengujian Modul 7.",
+        },
+      });
+    } else {
+      // Pastikan kos uji tanpa ulasan bersih dari ulasan sintetis seed lama
+      await prisma.ulasan.deleteMany({
+        where: { kosId: kos.id, namaPenyewa: "Pengguna Uji" },
+      });
+    }
   }
 
   const jKos = await prisma.kos.count();
@@ -33,5 +42,8 @@ async function main() {
 }
 
 main()
-  .catch((e) => { console.error(e); process.exitCode = 1; })
+  .catch((e) => {
+    console.error(e);
+    process.exitCode = 1;
+  })
   .finally(() => prisma.$disconnect());

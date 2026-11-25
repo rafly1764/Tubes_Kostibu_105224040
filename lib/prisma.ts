@@ -11,9 +11,11 @@ function buatClient() {
     connectionString: process.env.DATABASE_URL!,
   });
   
-  return new PrismaClient({ 
-    adapter, 
-    log: ["query", "warn", "error"] 
+  return new PrismaClient({
+    adapter,
+    // Modul 7: tampilkan setiap query SQL di terminal.
+    // Hapus "query" setelah praktikum agar log tidak terlalu ramai.
+    log: ["query", "warn", "error"],
   });
 }
 
