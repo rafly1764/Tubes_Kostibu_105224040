@@ -28,10 +28,21 @@ export async function ubahKos(
 }
 
 export async function hapusKos(id: number) {
+  try {
     await prisma.kos.delete({ where: { id } });
-    revalidatePath("/kos");
-    redirect("/kos");
+  } catch (error) {
+    const err = error as { code?: string };
+    if (err.code === "P2003") {
+      throw new Error(
+        "Kos tidak dapat dihapus karena masih memiliki ulasan terkait.",
+      );
+    }
+    throw error;
   }
+
+  revalidatePath("/kos");
+  redirect("/kos");
+}
 
 export async function tambahUlasan(
   kosId: number,
