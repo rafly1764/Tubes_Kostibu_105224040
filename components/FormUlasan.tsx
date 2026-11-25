@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState,useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import { tambahUlasan, type StatusForm } from "@/app/kos/actions";
 
 export default function FormUlasan({ kosId }: { kosId: number }) {
@@ -9,11 +9,7 @@ export default function FormUlasan({ kosId }: { kosId: number }) {
     {},
   );
   const [isi, setIsi] = useState("");
- const [sisa, setSisa] = useState(280);
-
-  useEffect(() => {
-    setSisa(280 - isi.length);
-  }, []);
+ const sisa = 280 - isi.length;
 
   return (
     <form
