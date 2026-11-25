@@ -7,7 +7,7 @@ export const skemaKos = z.object({
   tipe: z.enum(opsiTipeKos),
   deskripsi: z.string().trim().max(500, "Deskripsi maksimal 500 karakter."),
   // "true" -> true, "false" -> false; nilai lain menjadi galat validasi
-  tersedia: z.coerce.boolean(),
+  tersedia: z.stringbool(),
 });
 
 export const skemaUlasan = z.object({
