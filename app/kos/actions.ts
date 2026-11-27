@@ -11,6 +11,14 @@ export type StatusForm = {
   galat?: Partial<Record<string, string[]>>;
 };
 
+function ambilKodePrisma(error: unknown): string | undefined {
+  if (typeof error === "object" && error !== null && "code" in error) {
+    const kode = (error as { code: unknown }).code;
+    return typeof kode === "string" ? kode : undefined;
+  }
+  return undefined;
+}
+
 export async function ubahKos(
   id: number,
   _s: StatusForm,
@@ -31,10 +39,15 @@ export async function hapusKos(id: number) {
   try {
     await prisma.kos.delete({ where: { id } });
   } catch (error) {
-    const err = error as { code?: string };
-    if (err.code === "P2003") {
+    const kode = ambilKodePrisma(error);
+    if (kode === "P2003") {
       throw new Error(
         "Kos tidak dapat dihapus karena masih memiliki ulasan terkait.",
+      );
+    }
+    if (kode === "P2025") {
+      throw new Error(
+        "Data kos tidak ditemukan atau sudah dihapus sebelumnya.",
       );
     }
     throw error;
@@ -64,8 +77,7 @@ export async function tambahUlasan(
       },
     });
   } catch (error) {
-    const err = error as { code?: string };
-    if (err.code === "P2002") {
+    if (ambilKodePrisma(error) === "P2002") {
       return {
         pesan: "Nama penyewa ini sudah pernah memberi ulasan pada kos ini.",
       };
